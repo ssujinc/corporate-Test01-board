@@ -1,8 +1,7 @@
 import express from 'express';
 const router = express.Router();
+import boardRouter from './board.js';
 
-router.get('/ping', (req, res) => {
-  res.json({ message: 'pong' });
-});
+router.use(boardRouter);
 
 export default router;
