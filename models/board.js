@@ -4,6 +4,7 @@ import * as searchFilter from './util.js';
 export const getBoard = async (keyword) => {
   return await prisma.$queryRawUnsafe(`
     SELECT
+      board.id
       board.title AS boardTitle,
       board.contents AS boardContent,
       user.nickname AS userName,
@@ -26,9 +27,9 @@ export const getBoard = async (keyword) => {
 };
 
 export const createComment = async (createCommentDto) => {
-  const { boardId, userId, comment } = createCommentDto;
+  const { userId, boardId, comment, parentId } = createCommentDto;
   await prisma.$queryRaw`
-    INSERT INTO comment (user_id, board_id, contents, group_id)
-    VALUES (${userId}, ${boardId}, ${comment}, 1);
+    INSERT INTO comment (user_id, board_id, contents, parent_id)
+    VALUES (${userId}, ${boardId}, ${comment}, ${parentId});
   `;
 };

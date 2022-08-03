@@ -9,11 +9,6 @@ export const readBoard = async (keyword) => {
   return searchResult;
 };
 
-export const createComment = async (boardId, userId, comment) => {
-  const createCommentDto = {
-    boardId,
-    userId,
-    comment,
-  };
+export const createComment = async (createCommentDto) => {
   return await getBoard.createComment(createCommentDto);
 };

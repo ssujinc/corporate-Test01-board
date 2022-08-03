@@ -17,9 +17,15 @@ export const readBoard = async (req, res) => {
 export const createComment = async (req, res) => {
   try {
     const boardId = req.params.id;
-    const { userId, comment } = req.body;
-    const searchResult = await boardService.createComment(boardId, userId, comment);
-    return res.status(200).json(searchResult);
+    const { userId, comment, parentId } = req.body;
+    const createCommentDto = {
+      userId,
+      boardId,
+      comment,
+      parentId,
+    };
+    await boardService.createComment(createCommentDto);
+    return res.status(200).json({ message: 'CREATE' });
   } catch (error) {
     return res.status(error.statusCode || 500).json({ message: error.message });
   }
