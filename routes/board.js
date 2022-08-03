@@ -4,5 +4,6 @@ import * as board from '../controllers/board.js';
 const router = express.Router();
 router.get('/board', board.readBoard);
 router.post('/board/:id', board.createComment);
+router.put('/board/:id', board.updateView);
 
 export default router;

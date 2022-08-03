@@ -2,7 +2,7 @@ CREATE TABLE `board` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `title` varchar(255),
   `contents` varchar(255),
-  `views` int,
+  `views` int DEFAULT 0,
   `user_id` int,
   `categord_id` int,
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,

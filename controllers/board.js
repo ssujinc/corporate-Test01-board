@@ -7,7 +7,6 @@ export const readBoard = async (req, res) => {
     if (keyword === '') {
       return res.sendStatus(204);
     }
-    // const data = await boardService.readBoard();
     return res.status(200).json(searchResult);
   } catch (error) {
     return res.status(error.statusCode || 500).json({ message: error.message });
@@ -26,6 +25,17 @@ export const createComment = async (req, res) => {
     };
     await boardService.createComment(createCommentDto);
     return res.status(200).json({ message: 'CREATE' });
+  } catch (error) {
+    return res.status(error.statusCode || 500).json({ message: error.message });
+  }
+};
+
+export const updateView = async (req, res) => {
+  try {
+    const boardId = req.params.id;
+    const { userId } = req.body;
+    await boardService.updateView(boardId, userId);
+    return res.status(200).json({ message: 'SUCCESS' });
   } catch (error) {
     return res.status(error.statusCode || 500).json({ message: error.message });
   }

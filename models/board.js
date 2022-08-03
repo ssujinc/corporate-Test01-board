@@ -35,12 +35,28 @@ export const createComment = async (createCommentDto) => {
       user_id, 
       board_id, 
       contents
-      ${parentId ? `,depth, parent_id` : ``}
+      ${parentId ? `, depth, parent_id` : ``}
     )
     VALUES (
       ${userId}, ${boardId}, "${comment}" 
-      ${parentId ? `,${depth} ,${parentId}` : ``}
+      ${parentId ? `,${depth}, ${parentId}` : ``}
     );
   `;
   await prisma.$queryRawUnsafe(query);
 };
+
+export const getView = async (boardId) => {
+  return await prisma.$queryRaw`
+    SELECT views
+    FROM board
+    WHERE id=${boardId};
+  `;
+};
+
+export const updateView = async (boardId, userId) => {
+  let view = (await getView(boardId))[0].views + 1;
+  return await prisma.$queryRaw`
+    UPDATE board SET views=${view} WHERE id=${boardId}
+  `;
+};
+h;
