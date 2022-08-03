@@ -2,9 +2,15 @@ import prisma from './prisma-client.js';
 import * as searchFilter from './util.js';
 
 export const getBoard = async (keyword) => {
+  await prisma.user.create({
+    data: {
+      nickname: '수진',
+    },
+  });
+
   return await prisma.$queryRawUnsafe(`
     SELECT
-      board.id
+      board.id,
       board.title AS boardTitle,
       board.contents AS boardContent,
       user.nickname AS userName,
@@ -59,4 +65,3 @@ export const updateView = async (boardId, userId) => {
     UPDATE board SET views=${view} WHERE id=${boardId}
   `;
 };
-h;
