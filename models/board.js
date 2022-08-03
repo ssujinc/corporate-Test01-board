@@ -28,8 +28,19 @@ export const getBoard = async (keyword) => {
 
 export const createComment = async (createCommentDto) => {
   const { userId, boardId, comment, parentId } = createCommentDto;
-  await prisma.$queryRaw`
-    INSERT INTO comment (user_id, board_id, contents, parent_id)
-    VALUES (${userId}, ${boardId}, ${comment}, ${parentId});
+  let depth = 0;
+  if (parentId !== null) depth = Number(parentId) + 1;
+  const query = `
+    INSERT INTO comment (
+      user_id, 
+      board_id, 
+      contents
+      ${parentId ? `,depth, parent_id` : ``}
+    )
+    VALUES (
+      ${userId}, ${boardId}, "${comment}" 
+      ${parentId ? `,${depth} ,${parentId}` : ``}
+    );
   `;
+  await prisma.$queryRawUnsafe(query);
 };

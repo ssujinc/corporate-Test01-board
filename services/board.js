@@ -10,5 +10,5 @@ export const readBoard = async (keyword) => {
 };
 
 export const createComment = async (createCommentDto) => {
-  return await getBoard.createComment(createCommentDto);
+  await getBoard.createComment(createCommentDto);
 };
