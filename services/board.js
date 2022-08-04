@@ -1,7 +1,11 @@
 import * as getBoard from '../models/board.js';
 
-export const readBoard = async (keyword) => {
-  const searchResult = await getBoard.getBoard(keyword);
+export const readBoard = async (boardId, pageNum) => {
+  return await getBoard.getBoard(boardId, pageNum);
+};
+
+export const readBoards = async (keyword) => {
+  const searchResult = await getBoard.getBoards(keyword);
   return searchResult;
 };
 
@@ -9,9 +13,18 @@ export const createComment = async (createCommentDto) => {
   await getBoard.createComment(createCommentDto);
 };
 
+export const readComment = async (pageNum) => {
+  const resultComment = await getBoard.getComment(pageNum);
+  return resultComment;
+};
+
 export const updateView = async (boardId, userId) => {
-  // 같은 User가 게시글을 읽는 경우 count 수 증가하면 안 된다.
-  // 유저 1번이 게시판 1번을 들어오면 조회수 1 올라감.
-  // 다시 유저 1번이 게시판 1번을 들어오면 조회수 그대로
+  const existingUser = await getBoard.getUserById(boardId, userId);
+  if (existingUser) {
+    const view = Number((await getBoard.readView(boardId))[0].cnt);
+    return view;
+  }
   await getBoard.updateView(boardId, userId);
+  const view = Number((await getBoard.readView(boardId))[0].cnt);
+  return view;
 };
