@@ -24,15 +24,15 @@ export const readBoards = async (req, res) => {
   }
 };
 
-export const readComment = async (req, res) => {
-  try {
-    const pageNum = req.query.page;
-    const readComment = await boardService.readComment(pageNum);
-    return res.status(200).json(readComment);
-  } catch (error) {
-    return res.status(error.statusCode || 500).json({ message: error.message });
-  }
-};
+// export const readComment = async (req, res) => {
+//   try {
+//     const pageNum = req.query.page;
+//     const readComment = await boardService.readComment(pageNum);
+//     return res.status(200).json(readComment);
+//   } catch (error) {
+//     return res.status(error.statusCode || 500).json({ message: error.message });
+//   }
+// };
 
 export const createComment = async (req, res) => {
   try {
