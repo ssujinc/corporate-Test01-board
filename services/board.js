@@ -1,30 +1,21 @@
-import * as getBoard from '../models/board.js';
+import * as boardModels from '../models/board.js';
 
 export const readBoard = async (boardId, pageNum) => {
-  return await getBoard.getBoard(boardId, pageNum);
+  return await boardModels.readBoard(boardId, pageNum);
 };
 
-export const readBoards = async (keyword) => {
-  const searchResult = await getBoard.getBoards(keyword);
+export const getBoards = async (keyword) => {
+  const searchResult = await boardModels.getBoards(keyword);
   return searchResult;
 };
 
-export const createComment = async (createCommentDto) => {
-  await getBoard.createComment(createCommentDto);
-};
-
-// export const readComment = async (pageNum) => {
-//   const resultComment = await getBoard.getComment(pageNum);
-//   return resultComment;
-// };
-
 export const updateView = async (boardId, userId) => {
-  const existingUser = await getBoard.getUserById(boardId, userId);
+  const existingUser = await boardModels.getUserById(boardId, userId);
   if (existingUser) {
-    const view = Number((await getBoard.readView(boardId))[0].cnt);
+    const view = Number((await boardModels.readView(boardId))[0].cnt);
     return view;
   }
-  await getBoard.updateView(boardId, userId);
-  const view = Number((await getBoard.readView(boardId))[0].cnt);
+  await boardModels.updateView(boardId, userId);
+  const view = Number((await boardModels.readView(boardId))[0].cnt);
   return view;
 };

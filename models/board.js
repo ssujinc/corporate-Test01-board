@@ -1,7 +1,7 @@
 import prisma from './prisma-client.js';
 import * as searchFilter from './util.js';
 
-export const getBoard = async (boardId, pageNum) => {
+export const readBoard = async (boardId, pageNum) => {
   const start = (pageNum - 1) * 5;
   let end = Number((await prisma.$queryRaw`SELECT COUNT(board_id) as rowNum FROM comment WHERE board_id=${boardId}`)[0].rowNum);
   console.log(start, pageNum, end);
@@ -15,14 +15,14 @@ export const getBoard = async (boardId, pageNum) => {
     b.contents,
     ( 
       SELECT
-          JSON_ARRAYAGG(
-            JSON_OBJECT("parent_id",cc.parent_id,"nickname",uu.nickname,"comment",cc.contents)) AS comt
+        JSON_ARRAYAGG(
+          JSON_OBJECT("parent_id",cc.parent_id,"nickname",uu.nickname,"comment",cc.contents)) AS comt
       FROM ( 
-          SELECT
-          *
-          FROM comment 
-          ORDER BY creatred_at
-          ${start ? `LIMIT ${start}, ${end}` : `LIMIT 0,5`}
+        SELECT
+        *
+        FROM comment 
+        ORDER BY creatred_at
+        ${start ? `LIMIT ${start}, 5` : `LIMIT 0,5`}
       ) AS cc 
       LEFT JOIN user AS uu ON cc.user_id=uu.id
       WHERE cc.board_id=${boardId}
@@ -39,24 +39,6 @@ export const getBoard = async (boardId, pageNum) => {
   GROUP BY b.id
   `);
 };
-
-/* export const getBoard = async (boardId) => {
-  return await prisma.$queryRaw`
-    SELECT
-      board.id,
-      board.user_id,
-      user.nickname,
-      board.title,
-      board.contents,
-      JSON_ARRAYAGG(JSON_OBJECT("parent_id", comment.parent_id, "nickname", u.nickname, "comment", comment.contents, "depth", comment.depth)) AS board_comment
-    FROM board
-    LEFT JOIN comment ON board.id = comment.board_id
-    LEFT JOIN user AS u ON comment.user_id = u.id
-    LEFT JOIN user ON board.user_id = user.id
-    WHERE board.id=${boardId}
-    GROUP BY board.id
-  `;
-};*/
 
 export const getBoards = async (keyword) => {
   await prisma.user.create({
@@ -89,39 +71,6 @@ export const getBoards = async (keyword) => {
   `);
 };
 
-// export const getComment = async (pageNum) => {
-//   const start = (pageNum - 1) * 5;
-//   const query = `
-//     SELECT *
-//     FROM comment
-//     ${start ? `LIMIT ${start}, 5` : `LIMIT 0,5`}`;
-//   return query;
-// };
-
-export const createComment = async (createCommentDto) => {
-  const { userId, boardId, comment, parentId } = createCommentDto;
-  let depth;
-  if (parentId !== undefined) {
-    let pdepth = await prisma.$queryRaw`SELECT depth FROM comment WHERE id=${parentId}`;
-    depth = Number(pdepth[0].depth) + 1;
-  } else {
-    depth = 0;
-  }
-  const query = `
-    INSERT INTO comment (
-      user_id, 
-      board_id, 
-      contents
-      ${parentId ? `, depth, parent_id` : ``}
-    )
-    VALUES (
-      ${userId}, ${boardId}, "${comment}" 
-      ${parentId ? `,${depth}, ${parentId}` : ``}
-    );
-  `;
-  await prisma.$queryRawUnsafe(query);
-};
-
 export const getUserById = async (boardId, userId) => {
   const [existingUser] = await prisma.$queryRaw`
     SELECT * FROM view
@@ -142,3 +91,21 @@ export const readView = async (boardId) => {
     SELECT COUNT(*) AS cnt FROM view WHERE board_id=${boardId}
   `;
 };
+
+/* export const readBoard = async (boardId) => {
+  return await prisma.$queryRaw`
+    SELECT
+      board.id,
+      board.user_id,
+      user.nickname,
+      board.title,
+      board.contents,
+      JSON_ARRAYAGG(JSON_OBJECT("parent_id", comment.parent_id, "nickname", u.nickname, "comment", comment.contents, "depth", comment.depth)) AS board_comment
+    FROM board
+    LEFT JOIN comment ON board.id = comment.board_id
+    LEFT JOIN user AS u ON comment.user_id = u.id
+    LEFT JOIN user ON board.user_id = user.id
+    WHERE board.id=${boardId}
+    GROUP BY board.id
+  `;
+};*/
