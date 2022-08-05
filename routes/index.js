@@ -14,26 +14,28 @@ router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
  * paths:
  *  /boards:
  *    get:
+ *      summary: 게시판 검색 조회
  *      tags:
  *      - board
- *      description: 게시판 검색 조회
+ *      description: keyword에 검색 단어를 입력하여 조회 할 수 있다.
  *      produces:
  *      - application/json
  *      parameters:
  *        - in: query
  *          name: keyword
  *          required: false
- *          type: integer
+ *          type: string
  *          description: 게시판
  *      responses:
  *       200:
- *        description: 검색 결과
+ *        description: data
  *
  *  /board/{id}:
  *    get:
+ *      summary: 게시판 조회
  *      tags:
  *      - board
- *      description: 게시판 조회
+ *      description: 게시판 board의 id를 이용하여 게시판 한개를 조회하며, page query 로 댓글의 pagination을 볼 수 있다.
  *      produces:
  *      - application/json
  *      parameters:
@@ -50,12 +52,13 @@ router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
  *          description : "댓글 pagination page number"
  *      responses:
  *       200:
- *        description: 검색 결과
+ *        description: data
  *
  *    put:
+ *      summary: 게시판 조회수 조회
  *      tags:
  *      - board
- *      description: 조회수 조회
+ *      description: user의 id가 다르면 조회수가 증가하며, 같은 user의 id가 들어가면 조회수의 증가가 일어나지 않는다.
  *      produces:
  *      - application/json
  *      parameters:
@@ -79,9 +82,10 @@ router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
  *
  *  /comment/{id}:
  *    post:
+ *      summary: 댓글 등록
  *      tags:
  *      - comment
- *      description: 댓글 등록
+ *      description: board의 id로 이용하여 게시판을 지정해주고, 댓글 또는 대댓글 등 무한 댓글을 등록 할 수 있다.
  *      produces:
  *      - application/json
  *      parameters:
