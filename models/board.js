@@ -3,8 +3,6 @@ import * as searchFilter from './util.js';
 
 export const readBoard = async (boardId, pageNum) => {
   const start = (pageNum - 1) * 5;
-  let end = Number((await prisma.$queryRaw`SELECT COUNT(board_id) as rowNum FROM comment WHERE board_id=${boardId}`)[0].rowNum);
-  console.log(start, pageNum, end);
 
   return await prisma.$queryRawUnsafe(`
   SELECT
