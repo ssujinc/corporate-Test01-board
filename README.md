@@ -76,6 +76,9 @@ http://localhost:10010/api-docs
 
 - 게시글 검색
   - GET /boards API를 를 사용하여 검색 하실수 있습니다. keyword는 자유자재로 작성 가능합니다. 게시글 제목, 게시글 본문, 게시글 댓글, 게시글 작성자 이름에서 모두 검색 가능하며, 표출됩니다.
+  ![image](https://user-images.githubusercontent.com/103615884/183031210-6cd1b72a-110a-451b-bee5-5f2a031c3844.png)
+  -
+
   
 - 대댓글(1 depth)
     - 대댓글 pagination
