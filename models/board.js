@@ -41,12 +41,6 @@ export const readBoard = async (boardId, pageNum) => {
 };
 
 export const getBoards = async (keyword) => {
-  await prisma.user.create({
-    data: {
-      nickname: '수진',
-    },
-  });
-
   return await prisma.$queryRawUnsafe(`
     SELECT
       board.id,
