@@ -1,5 +1,6 @@
 # BoradAPI
 
+<br>
 
 ## 사용 기술스택
 
@@ -11,7 +12,7 @@
 
 ### Prisma
 
-
+<br>
 
 ## 실행방법
 
@@ -47,6 +48,7 @@ npm run api-docs
 nodemon server.js
 ```
 
+<br><br>
 
 
 # API 명세서 
@@ -55,9 +57,7 @@ http://localhost:10010/api-docs
 ```
 ![image](https://user-images.githubusercontent.com/103615884/183025788-a90c9f92-4407-4378-a9aa-6c2841b742b2.png)
 
-
-- 원티드 지원 과제 내용 포함
-  - 해당 프로젝트는 아래내용을 기반으로 만들었습니다.
+- 해당 프로젝트는 아래내용을 기반으로 만들었습니다.
     - 게시글 카테고리가 있습니다.
     - 게시글 검색 기능이 있습니다.
     - 게시글에서 특정 키워드를 검색하면, 게시글 제목, 게시글 본문, 게시글 댓글, 게시글 작성자 이름 에서 모두 검색하여, 해당 게시물을 표출합니다.
@@ -71,8 +71,11 @@ http://localhost:10010/api-docs
     - Restful API 규칙에 따라 설계합니다.
     - Unit Test 를 추가합니다.
     - 1000만건 이상의 데이터를 넣고 성능테스트 진행 결과 필요합니다.
+<br>
 
 - 게시글 카테고리의 종류는 JUSTCODE, 자유게시판, 프론트엔드, 백엔드, stackoverflow, articles, 채용공고가 있습니다.
+
+<br> 
 
 - 게시글 검색
   - GET /boards API를 를 사용하여 검색 하실수 있습니다. keyword는 자유자재로 작성 가능합니다. 게시글 제목, 게시글 본문, 게시글 댓글, 게시글 작성자 이름에서 모두 검색 가능하며, 표출됩니다.
@@ -89,6 +92,8 @@ http://localhost:10010/api-docs
   ```
   이 함수를 models 에서 호출하여 상황에 맞게 검색 할수 있도록 하였습니다.
   
+<br>
+
 - 댓글/대댓글 무한댓글 등록
   - POST /coment/:id 로 확인하실수 있습니다.  
   - comment DATABASE에 depth와 parent_id column 을 추가하여, 무한 댓글이 가능합니다. 
@@ -97,6 +102,7 @@ http://localhost:10010/api-docs
   ![image](https://user-images.githubusercontent.com/103615884/183033651-85f76b1c-ba6c-406d-a669-6ebd205bb453.png)
   
   parentId 값이 없을 경우에는 삼항연산자를 사용하여 값을 제한해주었습니다. 
+  
   구현 코드는 아래와 같습니다.
   ```javascript
     let depth;
@@ -110,6 +116,8 @@ http://localhost:10010/api-docs
      ${parentId ? `, depth, parent_id` : ``}
   ```
   
+<br>
+
 - 대댓글(1 depth)
     - 대댓글 pagination
       - 기본 댓글은 0 depth, 대댓글은 1의 depth를 가지고있습니다. 대댓글의 페이지네이션은 GET /board/2?page 에서 확인하실수 있으며, 게시판 조회할때, 댓글 페이지네이션을 지정하여 확인가능합니다.
@@ -124,6 +132,8 @@ http://localhost:10010/api-docs
     ...
     ${start ? `LIMIT ${start}, 5` : `LIMIT 0,5`}
   ```
+  
+<br>
 
 - 게시판 조회수 
   - 조회수가 증가하지만, user가 중복되면 조회수는 증가되지 않아야 하기 때문에, view 라는 DATABASE 를 만들고, 거기에 user가 있는지 없는지를 확인합니다. 그것을 확인후에, 있으면 조회수가 증가됮니 않고, 없으면 view 테이블의 row를 insert 해주었습니다.
@@ -154,9 +164,7 @@ http://localhost:10010/api-docs
       `;
     }; 
    ```
- <br><br><br>
-   
-
+<br><br><br>
 - Rest API 설계
   - Rest API를 이용하여 설계하였습니다.
 - Unit Test
