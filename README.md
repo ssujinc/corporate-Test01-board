@@ -136,8 +136,8 @@ http://localhost:10010/api-docs
 <br>
 
 - 게시판 조회수 
-  - 조회수가 증가하지만, user가 중복되면 조회수는 증가되지 않아야 하기 때문에, view 라는 DATABASE 를 만들고, 거기에 user가 있는지 없는지를 확인합니다. 그것을 확인후에, 있으면 조회수가 증가됮니 않고, 없으면 view 테이블의 row를 insert 해주었습니다.
-  - 그리고 나서, 그 row수를 count 하여 조회수 조회가 가능하도록 하였습니다.
+  - 조회수가 증가하지만, user가 중복되면 조회수는 증가되지 않아야 하기 때문에, view 라는 DATABASE를 만들고, 거기에 user가 있는지 없는지를 확인합니다. 확인후에, 있으면 조회수가 증가되지 않고, 없으면 view 테이블의 row를 insert 해주었습니다.
+  -그 row 개수의 합계로 조회수 조회가 가능하도록 하였습니다.
   
   ![image](https://user-images.githubusercontent.com/103615884/183032702-2f3fb1cb-572d-4174-91b6-1d83e8277caf.png)
 
