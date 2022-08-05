@@ -12,13 +12,47 @@
 
 
 
+## 실행방법
+
+### 1.해당 레포지토리를 clone합니다.
+
+```shell
+git clone https://github.com/ssujinc/corporate-Test01-board.git
+```
+
+
+### 2. 다운 받으신 폴더로 들어갑니다
+
+```shell
+cd Aimmo
+```
+
+
+### 3. 의존성들을 설치합니다.
+
+```shell
+npm i
+```
+
+### 4. Swagger 문서를 build합니다
+
+```shell
+npm run api-docs
+```
+
+### 5. 실행시킵니다!
+
+```shell
+npm start
+```
+
+
+
 # API 명세서 
 ```shell
 http://localhost:10010/api-docs
 ```
 ![image](https://user-images.githubusercontent.com/103615884/183025788-a90c9f92-4407-4378-a9aa-6c2841b742b2.png)
-
-
 
 
 - 원티드 지원 과제 내용 포함
@@ -45,3 +79,13 @@ http://localhost:10010/api-docs
 - 대댓글(1 depth)
     - 대댓글 pagination
       - 기본 댓글은 0 depth, 대댓글은 1의 depth를 가지고있습니다. 대댓글의 페이지네이션은 GET /board/2?page 에서 확인하실수 있으며, 게시판 조회할때, 댓글 페이지네이션을 지정하여 확인가능합니다.
+
+![image](https://user-images.githubusercontent.com/103615884/183029470-b06b595c-8b86-460b-af09-8736168ec793.png)
+
+
+
+- Rest API 설계
+  - Rest API를 이용하여 설계하였습니다.
+- Unit Test
+  - Unit Test는 진행하지 못했습니다.
+- 1000만건 이상의 데이터를 넣고 성능테스트는 진행하지 못했습니다.
