@@ -33,7 +33,7 @@ router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
  *    get:
  *      tags:
  *      - board
- *      description: 댓글 등록
+ *      description: 게시판 조회
  *      produces:
  *      - application/json
  *      parameters:
