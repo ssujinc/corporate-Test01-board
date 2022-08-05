@@ -48,7 +48,7 @@ npm run api-docs
 nodemon server.js
 ```
 
-<br><br>
+<br>
 
 
 # API 명세서 
@@ -143,26 +143,12 @@ http://localhost:10010/api-docs
 
   구현 코드는 아래와 같습니다.
    ```javascript
-     export const getUserById = async (boardId, userId) => {
-      const [existingUser] = await prisma.$queryRaw`
-        SELECT * FROM view
-        WHERE board_id=${boardId} AND user_id=${userId}
-      `;
-      return existingUser;
-    };
-
-    export const updateView = async (boardId, userId) => {
-      return await prisma.$queryRaw`
-      INSERT INTO view (board_id, user_id)
-      VALUES(${boardId}, ${userId})
-      `;
-    };
-
-    export const readView = async (boardId) => {
-      return await prisma.$queryRaw`
-        SELECT COUNT(*) AS cnt FROM view WHERE board_id=${boardId}
-      `;
-    }; 
+    const [existingUser] = await prisma.$queryRaw`
+      SELECT * FROM view
+      WHERE board_id=${boardId} AND user_id=${userId}
+    `;
+    ...
+    SELECT COUNT(*) AS cnt FROM view WHERE board_id=${boardId}
    ```
 <br><br><br>
 - Rest API 설계
