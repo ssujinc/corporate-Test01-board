@@ -76,6 +76,7 @@ http://localhost:10010/api-docs
 
 - 게시글 검색
   - GET /boards API를 를 사용하여 검색 하실수 있습니다. keyword는 자유자재로 작성 가능합니다. 게시글 제목, 게시글 본문, 게시글 댓글, 게시글 작성자 이름에서 모두 검색 가능하며, 표출됩니다.
+  
   ![image](https://user-images.githubusercontent.com/103615884/183031210-6cd1b72a-110a-451b-bee5-5f2a031c3844.png)
   
   필터를 작성하기 위해 새로운 함수를 만들어서, 스크립트로 sql문을 만들었습니다. 코드는 이렇습니다.
@@ -87,22 +88,42 @@ http://localhost:10010/api-docs
   };
   ```
   이 함수를 models 에서 호출하여 상황에 맞게 검색 할수 있도록 하였습니다.
+  
+- 댓글/대댓글 무한댓글 등록
+  - POST /coment/:id 로 확인하실수 있습니다.  
+  - comment DATABASE에 depth와 parent_id column 을 추가하여, 무한 댓글이 가능합니다. 
+    - body값에 parent_id가 있다면, comment table 의 id와 같은 값을 parent_id 에 넣어주면서, depth 에는 +1 값을 해줍니다. 
 
+  ![image](https://user-images.githubusercontent.com/103615884/183033651-85f76b1c-ba6c-406d-a669-6ebd205bb453.png)
+  
+  parentId 값이 없을 경우에는 삼항연산자를 사용하여 값을 제한해주었습니다. 
+  구현 코드는 아래와 같습니다.
+  ```javascript
+    let depth;
+    if (parentId !== undefined) {
+      let pdepth = await prisma.$queryRaw`SELECT depth FROM comment WHERE id=${parentId}`;
+      depth = Number(pdepth[0].depth) + 1;
+    } else {
+      depth = 0;
+    }
+    ...
+     ${parentId ? `, depth, parent_id` : ``}
+  ```
   
 - 대댓글(1 depth)
     - 대댓글 pagination
       - 기본 댓글은 0 depth, 대댓글은 1의 depth를 가지고있습니다. 대댓글의 페이지네이션은 GET /board/2?page 에서 확인하실수 있으며, 게시판 조회할때, 댓글 페이지네이션을 지정하여 확인가능합니다.
 
-![image](https://user-images.githubusercontent.com/103615884/183029470-b06b595c-8b86-460b-af09-8736168ec793.png)
+  ![image](https://user-images.githubusercontent.com/103615884/183029470-b06b595c-8b86-460b-af09-8736168ec793.png)
 
-Client가 처음엔 페이지네이션 된 버튼을 누르는게 아닌 단순히 게시판을 눌렀을때, 바로 첫번째 페이지네이션으로 이동하게 합니다.
+  Client가 처음엔 페이지네이션 된 버튼을 누르는게 아닌 단순히 게시판을 눌렀을때, 바로 첫번째 페이지네이션으로 이동하게 합니다.
 
-구현 코드는 아래와 같습니다.
-```javascript
-  const start = (pageNum - 1) * 5;
-  ...
-  ${start ? `LIMIT ${start}, 5` : `LIMIT 0,5`}
-```
+  구현 코드는 아래와 같습니다.
+  ```javascript
+    const start = (pageNum - 1) * 5;
+    ...
+    ${start ? `LIMIT ${start}, 5` : `LIMIT 0,5`}
+  ```
 
 - 게시판 조회수 
   - 조회수가 증가하지만, user가 중복되면 조회수는 증가되지 않아야 하기 때문에, view 라는 DATABASE 를 만들고, 거기에 user가 있는지 없는지를 확인합니다. 그것을 확인후에, 있으면 조회수가 증가됮니 않고, 없으면 view 테이블의 row를 insert 해주었습니다.
@@ -111,28 +132,30 @@ Client가 처음엔 페이지네이션 된 버튼을 누르는게 아닌 단순�
   ![image](https://user-images.githubusercontent.com/103615884/183032702-2f3fb1cb-572d-4174-91b6-1d83e8277caf.png)
 
   구현 코드는 아래와 같습니다.
- ```javascript
-   export const getUserById = async (boardId, userId) => {
-    const [existingUser] = await prisma.$queryRaw`
-      SELECT * FROM view
-      WHERE board_id=${boardId} AND user_id=${userId}
-    `;
-    return existingUser;
-  };
+   ```javascript
+     export const getUserById = async (boardId, userId) => {
+      const [existingUser] = await prisma.$queryRaw`
+        SELECT * FROM view
+        WHERE board_id=${boardId} AND user_id=${userId}
+      `;
+      return existingUser;
+    };
 
-  export const updateView = async (boardId, userId) => {
-    return await prisma.$queryRaw`
-    INSERT INTO view (board_id, user_id)
-    VALUES(${boardId}, ${userId})
-    `;
-  };
+    export const updateView = async (boardId, userId) => {
+      return await prisma.$queryRaw`
+      INSERT INTO view (board_id, user_id)
+      VALUES(${boardId}, ${userId})
+      `;
+    };
 
-  export const readView = async (boardId) => {
-    return await prisma.$queryRaw`
-      SELECT COUNT(*) AS cnt FROM view WHERE board_id=${boardId}
-    `;
-  }; 
- ```
+    export const readView = async (boardId) => {
+      return await prisma.$queryRaw`
+        SELECT COUNT(*) AS cnt FROM view WHERE board_id=${boardId}
+      `;
+    }; 
+   ```
+   
+   
 
 - Rest API 설계
   - Rest API를 이용하여 설계하였습니다.
