@@ -12,7 +12,7 @@ router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 /**
  * @swagger
  * paths:
- *  /board:
+ *  /boards:
  *    get:
  *      tags:
  *      - board
@@ -23,17 +23,64 @@ router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
  *        - in: query
  *          name: keyword
  *          required: false
- *          schema:
- *               type: integer
- *               description: 게시판
+ *          type: integer
+ *          description: 게시판
  *      responses:
  *       200:
  *        description: 검색 결과
  *
  *  /board/{id}:
- *    post:
+ *    get:
  *      tags:
  *      - board
+ *      description: 댓글 등록
+ *      produces:
+ *      - application/json
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          type: integer
+ *          description : "boardId"
+ *
+ *        - in: query
+ *          name: page
+ *          required: true
+ *          type: integer
+ *          description : "댓글 pagination page number"
+ *      responses:
+ *       200:
+ *        description: 검색 결과
+ *
+ *    put:
+ *      tags:
+ *      - board
+ *      description: 조회수 조회
+ *      produces:
+ *      - application/json
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          required: true
+ *          type: integer
+ *          description : "boardId"
+ *
+ *        - in: body
+ *          name: userId
+ *          required: true
+ *          type: integer
+ *          properties:
+ *              userId:
+ *                  type: integer
+ *                  example: 1
+ *      responses:
+ *       200:
+ *        description: 조회수
+ *
+ *  /comment/{id}:
+ *    post:
+ *      tags:
+ *      - comment
  *      description: 댓글 등록
  *      produces:
  *      - application/json
@@ -52,31 +99,6 @@ router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
  *      responses:
  *       200:
  *        description: 검색 결과
- *
- *    put:
- *      tags:
- *      - board
- *      description: 조회수 등록
- *      produces:
- *      - application/json
- *      parameters:
- *        - in: path
- *          name: id
- *          required: true
- *          type: integer
- *          description : "boardId"
- *
- *        - in: body
- *          name: userId
- *          required: ture
- *          type: integer
- *          properties:
- *              userId:
- *                  type: integer
- *                  example: 1
- *      responses:
- *       200:
- *        description: SUCCESS
  *
  * definitions:
  *  comment:
