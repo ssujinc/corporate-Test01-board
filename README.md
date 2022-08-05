@@ -24,26 +24,26 @@ git clone https://github.com/ssujinc/corporate-Test01-board.git
 ### 2. 다운 받으신 폴더로 들어갑니다
 
 ```shell
-cd Aimmo
+cd corporate-Test01-board
 ```
 
 
 ### 3. 의존성들을 설치합니다.
 
 ```shell
-npm corporate-Test01-board
+npm i
 ```
 
 ### 4. Swagger 문서를 build합니다
 
 ```shell
-nodemon server.js
+npm run api-docs
 ```
 
 ### 5. 실행시킵니다!
 
 ```shell
-npm start
+nodemon server.js
 ```
 
 
