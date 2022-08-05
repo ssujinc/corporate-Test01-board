@@ -83,6 +83,14 @@ http://localhost:10010/api-docs
 
 ![image](https://user-images.githubusercontent.com/103615884/183029470-b06b595c-8b86-460b-af09-8736168ec793.png)
 
+Client가 처음엔 페이지네이션 된 버튼을 누르는게 아닌 단순히 게시판을 눌렀을때, 바로 첫번째 페이지네이션으로 이동하게 합니다.
+
+구현 코드는 아래와 같습니다.
+```javascript
+  const start = (pageNum - 1) * 5;
+  ...
+  ${start ? `LIMIT ${start}, 5` : `LIMIT 0,5`}
+```
 
 
 - Rest API 설계
