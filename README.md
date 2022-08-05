@@ -31,13 +31,13 @@ cd Aimmo
 ### 3. 의존성들을 설치합니다.
 
 ```shell
-npm i
+npm corporate-Test01-board
 ```
 
 ### 4. Swagger 문서를 build합니다
 
 ```shell
-npm run api-docs
+nodemon server.js
 ```
 
 ### 5. 실행시킵니다!
