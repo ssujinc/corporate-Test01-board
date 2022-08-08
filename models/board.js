@@ -1,8 +1,10 @@
-import prisma from './prisma-client.js';
-import * as searchFilter from './util.js';
+import prisma from '../prisma/index.js';
+import { searchFilter } from './util.js';
 
-export const readBoard = async (boardId, pageNum) => {
+export const getBoardWithComment = async (boardId, pageNum) => {
   const start = (pageNum - 1) * 5;
+  // let end = Number((await prisma.$queryRaw`SELECT COUNT(board_id) as rowNum FROM comment WHERE board_id=${boardId}`)[0].rowNum);
+  // console.log(start, pageNum, end);
 
   return await prisma.$queryRawUnsafe(`
   SELECT
@@ -59,7 +61,7 @@ export const getBoards = async (keyword) => {
       GROUP BY comment.board_id
     ) AS c ON c.board_id=board.id
     LEFT JOIN category ON category.id=board.category_id
-    WHERE ${searchFilter.searchFilter(keyword)}
+    WHERE ${searchFilter(keyword)}
   `);
 };
 
@@ -71,7 +73,7 @@ export const getUserById = async (boardId, userId) => {
   return existingUser;
 };
 
-export const updateView = async (boardId, userId) => {
+export const increaseView = async (boardId, userId) => {
   return await prisma.$queryRaw`
   INSERT INTO view (board_id, user_id)
   VALUES(${boardId}, ${userId})
@@ -83,21 +85,3 @@ export const readView = async (boardId) => {
     SELECT COUNT(*) AS cnt FROM view WHERE board_id=${boardId}
   `;
 };
-
-/* export const readBoard = async (boardId) => {
-  return await prisma.$queryRaw`
-    SELECT
-      board.id,
-      board.user_id,
-      user.nickname,
-      board.title,
-      board.contents,
-      JSON_ARRAYAGG(JSON_OBJECT("parent_id", comment.parent_id, "nickname", u.nickname, "comment", comment.contents, "depth", comment.depth)) AS board_comment
-    FROM board
-    LEFT JOIN comment ON board.id = comment.board_id
-    LEFT JOIN user AS u ON comment.user_id = u.id
-    LEFT JOIN user ON board.user_id = user.id
-    WHERE board.id=${boardId}
-    GROUP BY board.id
-  `;
-};*/

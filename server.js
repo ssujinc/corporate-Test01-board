@@ -3,8 +3,6 @@ import dotenv from 'dotenv';
 import http from 'http';
 import express from 'express';
 dotenv.config();
-// import { PrismaClient } from '@prisma/client';
-// export const prisma = new PrismaClient();
 
 import routes from './routes/index.js';
 

@@ -1,7 +1,7 @@
-import * as boardModels from '../models/board.js';
+import { boardModels } from '../models/index.js';
 
-export const readBoard = async (boardId, pageNum) => {
-  return await boardModels.readBoard(boardId, pageNum);
+export const getBoardWithComment = async (boardId, pageNum) => {
+  return await boardModels.getBoardWithComment(boardId, pageNum);
 };
 
 export const getBoards = async (keyword) => {
@@ -9,13 +9,13 @@ export const getBoards = async (keyword) => {
   return searchResult;
 };
 
-export const updateView = async (boardId, userId) => {
+export const increaseView = async (boardId, userId) => {
   const existingUser = await boardModels.getUserById(boardId, userId);
   if (existingUser) {
     const view = Number((await boardModels.readView(boardId))[0].cnt);
     return view;
   }
-  await boardModels.updateView(boardId, userId);
+  await boardModels.increaseView(boardId, userId);
   const view = Number((await boardModels.readView(boardId))[0].cnt);
   return view;
 };

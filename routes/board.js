@@ -1,9 +1,9 @@
 import express from 'express';
-import * as board from '../controllers/board.js';
+import * as boardController from '../controllers/board.js';
 
 const router = express.Router();
-router.get('/board/:id', board.readBoard);
-router.put('/board/:id', board.updateView);
-router.get('/boards', board.getBoards);
+router.get('/board/:id', boardController.getBoardDetail);
+router.put('/board/:id', boardController.increaseView);
+router.get('/boards', boardController.getBoards);
 
 export default router;

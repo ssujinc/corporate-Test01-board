@@ -1,4 +1,4 @@
-import prisma from './prisma-client.js';
+import prisma from '../prisma/index.js';
 
 // export const getComment = async (pageNum) => {
 //   const start = (pageNum - 1) * 5;
