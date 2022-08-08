@@ -1,10 +1,8 @@
 import prisma from '../prisma/index.js';
 import { searchFilter } from './util.js';
 
-export const getBoardWithComment = async (boardId, pageNum) => {
-  const start = (pageNum - 1) * 5;
-  // let end = Number((await prisma.$queryRaw`SELECT COUNT(board_id) as rowNum FROM comment WHERE board_id=${boardId}`)[0].rowNum);
-  // console.log(start, pageNum, end);
+export const getBoardWithComment = async (boardId, commentOffset, commentLimit) => {
+  const start = (commentOffset - 1) * commentLimit;
 
   return await prisma.$queryRawUnsafe(`
   SELECT
@@ -22,7 +20,7 @@ export const getBoardWithComment = async (boardId, pageNum) => {
         *
         FROM comment 
         ORDER BY creatred_at
-        ${start ? `LIMIT ${start}, 5` : `LIMIT 0,5`}
+        ${start ? `LIMIT ${start}, ${commentLimit}` : `LIMIT 0, ${commentLimit}`}
       ) AS cc 
       LEFT JOIN user AS uu ON cc.user_id=uu.id
       WHERE cc.board_id=${boardId}

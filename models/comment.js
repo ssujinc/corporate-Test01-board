@@ -1,14 +1,5 @@
 import prisma from '../prisma/index.js';
 
-// export const getComment = async (pageNum) => {
-//   const start = (pageNum - 1) * 5;
-//   const query = `
-//     SELECT *
-//     FROM comment
-//     ${start ? `LIMIT ${start}, 5` : `LIMIT 0,5`}`;
-//   return query;
-// };
-
 export const createComment = async (createCommentDto) => {
   const { userId, boardId, comment, parentId } = createCommentDto;
   let depth;

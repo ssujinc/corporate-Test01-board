@@ -1,11 +1,21 @@
 import { boardModels } from '../models/index.js';
 
-export const getBoardWithComment = async (boardId, pageNum) => {
-  return await boardModels.getBoardWithComment(boardId, pageNum);
+export const getBoardWithComment = async (boardId, commentOffset, commentLimit) => {
+  return await boardModels.getBoardWithComment(boardId, commentOffset, commentLimit);
 };
 
 export const getBoards = async (keyword) => {
   const searchResult = await boardModels.getBoards(keyword);
+  if (keyword.length === 0) {
+    const error = new Error('검색어가 없습니다.');
+    error.statusCode = 402;
+    throw error;
+  }
+  if (searchResult.length === 0) {
+    const error = new Error('검색 결과가 없습니다.');
+    error.statusCode = 403;
+    throw error;
+  }
   return searchResult;
 };
 
