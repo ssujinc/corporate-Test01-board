@@ -1,6 +1,14 @@
 import prisma from '../prisma/index.js';
 import { searchFilter } from './util.js';
 
+export const getBoardByBoardId = async (boardId) => {
+  const [existingBoard] = await prisma.$queryRaw`
+    SELECT * FROM board
+    WHERE id=${boardId}
+  `;
+  return existingBoard;
+};
+
 export const getBoardWithComment = async (boardId, commentOffset, commentLimit) => {
   const start = (commentOffset - 1) * commentLimit;
 

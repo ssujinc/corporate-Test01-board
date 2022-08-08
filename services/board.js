@@ -1,6 +1,12 @@
 import { boardModels } from '../models/index.js';
 
 export const getBoardWithComment = async (boardId, commentOffset, commentLimit) => {
+  const existingBoard = await boardModels.getBoardByBoardId(boardId);
+  if (!existingBoard) {
+    const error = new Error('게시판이 존재하지 않습니다.');
+    error.statusCode = 402;
+    throw error;
+  }
   return await boardModels.getBoardWithComment(boardId, commentOffset, commentLimit);
 };
 
