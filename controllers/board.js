@@ -1,6 +1,6 @@
 import { boardService } from '../services/index.js';
 
-export const getBoardDetail = async (req, res) => {
+export const getBoardWithComment = async (req, res) => {
   try {
     const boardId = req.params.id;
     const commentOffset = req.query.offset;

@@ -79,7 +79,7 @@ export const getUserById = async (boardId, userId) => {
   return existingUser;
 };
 
-export const increaseView = async (boardId, userId) => {
+export const createView = async (boardId, userId) => {
   return await prisma.$queryRaw`
   INSERT INTO view (board_id, user_id)
   VALUES(${boardId}, ${userId})

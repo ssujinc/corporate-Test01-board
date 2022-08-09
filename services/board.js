@@ -31,7 +31,7 @@ export const increaseView = async (boardId, userId) => {
     const view = Number((await boardModels.readView(boardId))[0].cnt);
     return view;
   }
-  await boardModels.increaseView(boardId, userId);
+  await boardModels.createView(boardId, userId);
   const view = Number((await boardModels.readView(boardId))[0].cnt);
   return view;
 };
