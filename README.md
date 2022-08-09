@@ -55,7 +55,7 @@ nodemon server.js
 ```shell
 http://localhost:10010/api-docs
 ```
-![image](https://user-images.githubusercontent.com/103615884/183025788-a90c9f92-4407-4378-a9aa-6c2841b742b2.png)
+![image](https://user-images.githubusercontent.com/103615884/183561575-0f42f2ff-5826-491c-ab26-74d47383c70e.png)
 
 - 해당 프로젝트는 아래내용을 기반으로 만들었습니다.
     - 게시글 카테고리가 있습니다.
@@ -80,7 +80,8 @@ http://localhost:10010/api-docs
 - 게시글 검색
   - GET /boards API를 를 사용하여 검색 하실수 있습니다. keyword는 자유자재로 작성 가능합니다. 게시글 제목, 게시글 본문, 게시글 댓글, 게시글 작성자 이름에서 모두 검색 가능하며, 표출됩니다.
   
-  ![image](https://user-images.githubusercontent.com/103615884/183031210-6cd1b72a-110a-451b-bee5-5f2a031c3844.png)
+  ![image](https://user-images.githubusercontent.com/103615884/183561639-9b8b3ca6-453a-4839-8467-571394f8b030.png)
+
   
   필터를 작성하기 위해 새로운 함수를 만들어서, 스크립트로 sql문을 만들었습니다. 코드는 이렇습니다.
   ```javascript
@@ -98,8 +99,9 @@ http://localhost:10010/api-docs
   - POST /coment/:id 로 확인하실수 있습니다.  
   - comment DATABASE에 depth와 parent_id column 을 추가하여, 무한 댓글이 가능합니다. 
     - body값에 parent_id가 있다면, comment table 의 id와 같은 값을 parent_id 에 넣어주면서, depth 에는 +1 값을 해줍니다. 
+    
+  ![image](https://user-images.githubusercontent.com/103615884/183561726-3f5e7f57-1878-4b90-ab5e-63858a9d2438.png)
 
-  ![image](https://user-images.githubusercontent.com/103615884/183033651-85f76b1c-ba6c-406d-a669-6ebd205bb453.png)
   
   parentId 값이 없을 경우에는 삼항연산자를 사용하여 값을 제한해주었습니다. 
   
@@ -118,9 +120,8 @@ http://localhost:10010/api-docs
   
 <br>
 
-- 대댓글(1 depth)
-    - 대댓글 pagination
-      - 기본 댓글은 0 depth, 대댓글은 1의 depth를 가지고있습니다. 대댓글의 페이지네이션은 GET /board/2?page 에서 확인하실수 있으며, 게시판 조회할때, 댓글 페이지네이션을 지정하여 확인가능합니다.
+- 댓글 pagination
+  - 기본 댓글은 0 depth, 대댓글은 1의 depth를 가지고있습니다. 대댓글의 페이지네이션은 GET /board/2?page 에서 확인하실수 있으며, 게시판 조회할때, 댓글 페이지네이션을 지정하여 확인가능합니다.
 
   ![image](https://user-images.githubusercontent.com/103615884/183029470-b06b595c-8b86-460b-af09-8736168ec793.png)
 
