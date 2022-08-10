@@ -1,8 +1,14 @@
 import * as board from './board.js';
 import * as boardService from '../services/board.js';
 
-describe('board.js test', () => {
-  test('readBoard test', async () => {
+describe('board test', () => {
+
+  beforeAll(
+    // board 테이블 싹 미는 코드,
+    // borad data 임시데이터 넣는 코드
+  )
+
+  test('SUCCESS : readBoard with search keyword - 백엔드라고 검색할 시' , async () => {
     const req = {
       keyword: '백엔드',
     };
@@ -13,7 +19,7 @@ describe('board.js test', () => {
 
     let keyword = '백엔드';
     await boardService.readBoard(keyword);
-    // expect(board.readBoard('백엔드')).toBe(1);
+    expect(board.readBoard('백엔드')).toBe(1);
     expect(res.send.length).toBe(6);
   });
   //   test('readBoard test', () => {
@@ -22,6 +28,15 @@ describe('board.js test', () => {
   //   test('readBoard test', () => {
   //     expect(board.updateView(1)).toBe(1);
   //   });
+
+  test('FAIL : readBoard with search keyword - empty data', async () => {
+    await boardService.readBoard(keyword);
+    
+    expect(board.readBoard('백엔드')).toBe('errors'); 
+  })
+
+  afterAll(truncate <--- 'TRUNCATE boards')
+
 });
 
 // describe('board.js test', () => {
