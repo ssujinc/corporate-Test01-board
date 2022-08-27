@@ -124,7 +124,7 @@ http://localhost:10010/api-docs
 
 - 댓글 pagination
 
-  - 기본 댓글은 0 depth, 대댓글은 1의 depth를 가지고있습니다. 대댓글의 페이지네이션은 GET /board/2?page 에서 확인하실수 있으며, 게시판 조회할때, 댓글 페이지네이션을 지정하여 확인가능합니다.
+  - 기본 댓글은 0 depth, 대댓글은 1의 depth를 가지고있습니다. 대댓글의 페이지네이션은 GET /board/1?offset=1&limit=5 에서 확인하실수 있으며, 게시판 조회할때, 댓글 페이지네이션을 지정하여 확인가능합니다.
 
   ![image](https://user-images.githubusercontent.com/103615884/186614556-4b39aa1e-ef83-4f6e-ac12-7b1b0524f73b.png)
 
